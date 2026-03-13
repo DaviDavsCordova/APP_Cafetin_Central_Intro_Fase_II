@@ -129,6 +129,9 @@ main {
     width: 36px;
     height: 36px;
     cursor: pointer;
+    font-size: 1rem;
+    display: grid;
+    place-items: center;
 }
 
 button {
@@ -226,13 +229,6 @@ button {
     to { opacity: 1; transform: translateX(0); }
 }
 
-.producto-card {
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin: 10px 0;
-    background: #fff;
-    border-radius: 8px;
-}
 
 .boton-caja {
     margin: 5px;
@@ -254,4 +250,44 @@ button {
     color: red;
     background: transparent;
     border: none;
+}
+
+
+#lista-prod {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.producto-card {
+    border: 1px solid #ccc;
+    padding: 12px;
+    margin: 0;
+    background: #fff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.producto-imagen {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 14px;
+    flex: 0 0 120px;
+}
+
+.producto-info h3 {
+    margin: 0 0 8px;
+}
+
+.producto-info p {
+    margin: 0 0 10px;
+}
+
+@media (max-width: 760px) {
+    #lista-prod {
+        grid-template-columns: 1fr;
+    }
 }
