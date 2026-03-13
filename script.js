@@ -8,8 +8,13 @@ var cuentas = [
 // Los datos de la comida simulada
 var productos = [
     { id: 1, nombre: "Empanada", precio: 25 },
-    { id: 2, nombre: "Café", precio: 15 },
-    { id: 3, nombre: "Jugo", precio: 20 }
+    { id: 2, nombre: "Cachito", precio: 30},
+    { id: 3, nombre: "Cachapa", precio: 20 },
+    { id: 4, nombre: "Jugo", precio: 20 },
+    { id: 5, nombre: "Café", precio: 15 },
+    { id: 6, nombre: "Malta", precio: 40 },
+    { id: 7, nombre: "Tizana", precio: 15 }
+    
 ];
 
 // Variables para guardar datos de las pantallas
@@ -67,6 +72,16 @@ function salir() {
     location.reload(); // Es más seguro recargar para limpiar todo el estado
 }
 
+
+function toggleClave() {
+    var campoClave = document.getElementById('cla');
+    if(campoClave.type == 'password') {
+        campoClave.type = 'text';
+    } else {
+        campoClave.type = 'password';
+    }
+}
+
 // ================== MÓDULO CLIENTE ==================
 
 function cambiarVista(pantalla) {
@@ -87,7 +102,7 @@ function verCatalogo() {
 
     for(var i=0; i < productos.length; i++) {
         var p = productos[i];
-        var card = "<div style='border: 1px solid #ccc; padding: 10px; margin: 10px 0; background: white;'>";
+        var card = "<div class='producto-card'>";
         card += "<h3>" + p.nombre + "</h3>";
         card += "<p>Precio: " + p.precio + " Bs.</p>";
         card += "<button onclick='meter(" + p.id + ")'>Añadir al Carrito</button>";
@@ -176,7 +191,7 @@ function verMenuCaja() {
     var div = document.getElementById('lista-caja');
     div.innerHTML = "";
     for(var i=0; i<productos.length; i++) {
-        var boton = "<button onclick='cobrar(" + productos[i].id + ")' style='margin: 5px; padding: 10px; cursor: pointer;'>" +
+        var boton = "<button class='boton-caja' onclick='cobrar(" + productos[i].id + ")'>" +
                     productos[i].nombre + " (" + productos[i].precio + ")</button>";
         div.innerHTML += boton;
     }
@@ -218,7 +233,7 @@ function verTabla() {
         var f = "<tr>";
         f += "<td>" + productos[i].nombre + "</td>";
         f += "<td>" + productos[i].precio + " Bs.</td>";
-        f += "<td><button onclick='quitar(" + productos[i].id + ")' style='color: red;'>Eliminar</button></td>";
+        f += "<td><button class='btn-eliminar' onclick='quitar(" + productos[i].id + ")'>Eliminar</button></td>";
         f += "</tr>";
         tab.innerHTML += f;
     }
@@ -259,3 +274,5 @@ window.darRecibo = darRecibo;
 window.agregarProd = agregarProd;
 window.quitar = quitar;
 window.seleccionarUsuario = seleccionarUsuario;
+
+window.toggleClave = toggleClave;
