@@ -1,100 +1,107 @@
-<html lang="es"><head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
     <meta charset="utf-8">
-    <title>Proyecto Cafetín UCV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafetín Central</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body style="font-family: Arial, sans-serif; background: #e9e9e9; margin: 0;">
-
-    <div style="background: darkblue; color: white; padding: 15px;">
-        <h2>Cafetín Central UCV</h2>
-        <div id="info-usuario" style="display: none;">
+<body>
+    <header class="topbar">
+        <h1>Cafetín Central UCV</h1>
+        <div id="info-usuario" class="info-usuario" style="display: none;">
             Usuario actual: <b id="nombre-usu"></b> | Tipo: <b id="rol-usu"></b>
             <button onclick="salir()">Cerrar Sesión</button>
         </div>
-    </div>
+    </header>
 
-    <div id="pantalla-login" style="background: white; padding: 20px; width: 300px; border: 1px solid black; margin: 0 auto;">
-        <h3>Iniciar Sesión</h3>
+    <main>
+        <section id="pantalla-login" class="panel login-panel">
+            <h2>Iniciar Sesión</h2>
 
-        <label for="usu">Usuario</label>
-        <div class="campo-usuario">
-            <input type="text" id="usu" style="width: 90%;" placeholder="Escribe o selecciona una cuenta">
-            <div class="sugerencias-usuarios">
-                <button type="button" onclick="seleccionarUsuario('ClienteUCV', event)">ClienteUCV</button>
-                <button type="button" onclick="seleccionarUsuario('caja_01', event)">caja_01</button>
-                <button type="button" onclick="seleccionarUsuario('adminRoot', event)">adminRoot</button>
+            <label for="usu">Usuario</label>
+            <div class="campo-usuario login-control">
+                <input type="text" id="usu" placeholder="Escribe o selecciona una cuenta">
+                <div class="sugerencias-usuarios">
+                    <button type="button" onclick="seleccionarUsuario('ClienteUCV', event)">ClienteUCV</button>
+                    <button type="button" onclick="seleccionarUsuario('caja_01', event)">caja_01</button>
+                    <button type="button" onclick="seleccionarUsuario('adminRoot', event)">adminRoot</button>
+                </div>
             </div>
-        </div>
 
-        <br>
-        <label for="cla">Clave</label>
-        <input type="password" id="cla" style="width: 90%;"><br><br>
-        <button id="btn-entrar" style="background: blue; color: white; padding: 10px; width: 100%; border: none; cursor: pointer;">Entrar</button>
-        <p><small>Pasa el cursor por el campo Usuario para ver cuentas.</small></p>
-    </div>
+            <label for="cla">Clave</label>
+            <div class="password-wrap login-control">
+                <input type="password" id="cla">
+                <button type="button" class="btn-ojo" onclick="toggleClave()" aria-label="Mostrar u ocultar clave">👁</button>
+            </div>
 
-    <div id="pantalla-cliente" style="display: none; padding: 10px;">
-        <button onclick="cambiarVista('div-catalogo')">Ver Menú</button>
-        <button onclick="cambiarVista('div-carrito')">Carrito (<span id="cant-carrito">0</span>)</button>
-        <button onclick="cambiarVista('div-historial')">Mis Compras</button>
+            <button id="btn-entrar" class="login-control">Entrar</button>
+            <p class="ayuda-login login-control"><small>Pasa el cursor por el campo Usuario para ver cuentas simuladas.</small></p>
+        </section>
 
-        <p><b>Tienes <span id="mis-puntos">150</span> puntos acumulados</b></p>
+        <section id="pantalla-cliente" class="pantalla" style="display: none;">
+            <button onclick="cambiarVista('div-catalogo')">Ver Menú</button>
+            <button onclick="cambiarVista('div-carrito')">Carrito (<span id="cant-carrito">0</span>)</button>
+            <button onclick="cambiarVista('div-historial')">Mis Compras</button>
 
-        <div id="div-catalogo">
-            <h3>Lista de Comida</h3>
-            <div id="lista-prod"></div>
-        </div>
+            <p><b>Tienes <span id="mis-puntos">150</span> puntos acumulados</b></p>
 
-        <div id="div-carrito" style="display: none; background: white; padding: 15px;">
-            <h3>Tu Carrito de Compras</h3>
-            <ul id="items-carrito"></ul>
-            <p><b>Total a pagar: <span id="total-pagar">0</span> Bs.</b></p>
-            <button id="btn-puntos" onclick="gastarPuntos()" style="display: none; background: orange; border: none; padding: 10px; cursor: pointer;">Usar 150 puntos (-15 Bs.)</button><br><br>
-            <button onclick="pagar()" style="background: green; color: white; padding: 10px; border: none; cursor: pointer;">Confirmar el Pedido</button>
-        </div>
+            <div id="div-catalogo">
+                <h3>Lista de Comida</h3>
+                <div id="lista-prod"></div>
+            </div>
 
-        <div id="div-historial" style="display: none; background: white; padding: 15px;">
-            <h3>Historial de Compras</h3>
-            <ul id="lista-hist"></ul>
-        </div>
-    </div>
+            <div id="div-carrito" class="panel" style="display: none;">
+                <h3>Tu Carrito de Compras</h3>
+                <ul id="items-carrito"></ul>
+                <p><b>Total a pagar: <span id="total-pagar">0</span> Bs.</b></p>
+                <button id="btn-puntos" onclick="gastarPuntos()" style="display: none;">Usar 150 puntos (-15 Bs.)</button>
+                <button class="btn-confirmar" onclick="pagar()">Confirmar el Pedido</button>
+            </div>
 
-    <div id="pantalla-caja" style="display: none; padding: 10px;">
-        <h2>Punto de Venta (Taquilla)</h2>
-        <h3>Comida para vender:</h3>
-        <div id="lista-caja"></div>
-        <hr>
-        <div style="background: white; padding: 15px;">
-            <h3>Cuenta del Cliente:</h3>
-            <ul id="items-caja"></ul>
-            <p><b>Total: <span id="total-caja">0</span> Bs.</b></p>
-            <button onclick="darRecibo()" style="background: darkblue; color: white; padding: 10px; border: none; cursor: pointer;">Finalizar Venta</button>
-        </div>
-    </div>
+            <div id="div-historial" class="panel" style="display: none;">
+                <h3>Historial de Compras</h3>
+                <ul id="lista-hist"></ul>
+            </div>
+        </section>
 
-    <div id="pantalla-admin" style="display: none; padding: 10px;">
-        <h2>Administración del Menú</h2>
-        <div style="background: white; padding: 15px;">
-            <h3>Agregar Producto Nuevo</h3>
-            Nombre: <input type="text" id="n-nombre">
-            Precio Bs: <input type="number" id="n-precio">
-            <button onclick="agregarProd()">Guardar en Sistema</button>
-        </div>
-        <br>
-        <div style="background: white; padding: 15px;">
-            <h3>Inventario Actual</h3>
-            <table border="1" width="100%" style="border-collapse: collapse;">
-                <thead>
-                    <tr style="background: #eee;">
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="cuerpo-tabla"></tbody>
-            </table>
-        </div>
-    </div>
+        <section id="pantalla-caja" class="pantalla" style="display: none;">
+            <h2>Punto de Venta (Taquilla)</h2>
+            <h3>Comida para vender:</h3>
+            <div id="lista-caja"></div>
+            <hr>
+            <div class="panel">
+                <h3>Cuenta del Cliente:</h3>
+                <ul id="items-caja"></ul>
+                <p><b>Total: <span id="total-caja">0</span> Bs.</b></p>
+                <button class="btn-caja" onclick="darRecibo()">Finalizar Venta</button>
+            </div>
+        </section>
+
+        <section id="pantalla-admin" class="pantalla" style="display: none;">
+            <h2>Administración del Menú</h2>
+            <div class="panel">
+                <h3>Agregar Producto Nuevo</h3>
+                Nombre: <input type="text" id="n-nombre">
+                Precio Bs: <input type="number" id="n-precio">
+                <button onclick="agregarProd()">Guardar en Sistema</button>
+            </div>
+            <div class="panel separador-admin">
+                <h3>Inventario Actual</h3>
+                <table border="1" width="100%" class="tabla-admin">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Precio</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-tabla"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
-</body></html>
+</body>
+</html>
